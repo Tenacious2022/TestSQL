@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Verify Code</title>
+
+    <style>
+
+        /* Your existing styles for the password reset page */
+
+        body {
+
+            background-color: #f5f5f5;
+
+            font-family: Arial, sans-serif;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            height: 100vh;
+
+            margin: 0;
+
+        }
+
+        .verify-container {
+
+            background-color: #ffffff;
+
+            border-radius: 8px;
+
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+            padding: 20px;
+
+            text-align: center;
+
+            width: 300px;
+
+        }
+
+        h1 {
+
+            color: #333;
+
+            font-size: 24px;
+
+            margin-bottom: 20px;
+
+        }
+
+        label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+            color: #555;
+
+        }
+
+        input[type="text"] {
+
+            width: 80%;
+
+            padding: 10px;
+
+            margin-bottom: 10px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 4px;
+
+        }
+
+        input[type="submit"] {
+
+            background-color: #007BFF;
+
+            color: #fff;
+
+            border: none;
+
+            border-radius: 4px;
+
+            padding: 10px 20px;
+
+            cursor: pointer;
+
+        }
+
+        input[type="submit"]:hover {
+
+            background-color: #0056b3;
+
+        }
+
+        .alert {
+
+            background-color: #4CAF50;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 20px;
+
+            margin-bottom: auto;
+
+            display: none;
+
+        }
+
+        .messages {
+
+            list-style: none;
+
+            padding: 0;
+
+        }
+
+        .messages li {
+
+            margin-bottom: 10px;
+
+        }
+
+        .error {
+
+            color: #FF0000;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="verfiy-container">
+
+        <h1>Reset Password</h1>
+
+        <form method="post" action="{% url 'verification_page' %}">
+
+            {% csrf_token %}
+
+            <input type="hidden" name="username" value="{{ username }}">
+            <input type="hidden" name="verification_code" value="{{ verification_code }}">
+
+            <label for="user_verificattion_code">Verification code:</label>
+
+            <input class="login-input" type="text" name="user_verification_code" placeholder="Enter code" required>
+
+            <br><br>
+
+            <input type="submit" value="Verify code">
+
+        </form>
+
+        {% if messages %}
+
+        <ul class="messages">
+
+            {% for message in messages %}
+
+                <li class="{{ message.tags }}">{{ message }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>
+

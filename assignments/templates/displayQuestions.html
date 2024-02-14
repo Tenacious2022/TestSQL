@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/exam.css' %}">
+    <link rel="stylesheet" href="{% static 'css/assignmentPage.css' %}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".toggle-nav-bar").click(function () {
+                $(".nav-container").toggleClass("collapsed");
+                $(".image-list").toggleClass("collapsed");
+            });
+            
+            $(".image-list li").click(function () {
+                const $imageList = $(".image-list");
+                const $navContainer = $(".nav-container");
+                $imageList.toggleClass("enlarged");
+                $navContainer.toggleClass("nav-enlarged");
+            });
+        });
+    </script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.css">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
+
+
+    <title>Assignment Page</title>
+
+    <style>
+        #timer-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ec480f;
+            width: 25%;
+            background-color: #fff;
+            padding: 10px 20px;
+            border: 2px solid #ec480f;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+            
+            text-align: center;
+        }
+
+        #timer-display span {
+            font-size: 20px;
+            color: #ff5733;
+            text-align: center;
+            
+        }
+
+        @keyframes countdown-animation {
+            0% {
+                color: #ff5733;
+            }
+
+            50% {
+                color: #ec480f;
+            }
+
+            100% {
+                color: #ff5733;
+            }
+        }
+
+        #timer-display.running span {
+            animation: countdown-animation 1s infinite;
+        }
+    </style>
+
+</head>
+<body>
+    <!-- Top navigation -->
+    <div class="topnav">
+        <div class="welcome-container">
+            <img class="logo" src="{% static 'images/Azure-SQL.png' %}" alt="Logo">
+
+            <div class="welcome-text">Good luck, {{ user }}!</div> 
+            <span class="welcome-text deadline" style="padding-left: 400px;">Deadline: {{ deadline|date:"Y-m-d h:i A" }}</span>
+
+
+        </div>
+        <div class="topnav-right">
+            <a href="{% url 'homepage' %}">Home</a>
+            <a href="{% url 'login' %}" class="logout-link">Log out</a>
+        </div>
+    </div>
+
+    <!-- Countdown timer
+    <div id="timer-display">
+        Time remaining: <span id="countdown">00:00:00</span>
+    </div>
+
+     -->
+
+    <div class="container">
+        <div class="nav-container">
+            <div class="nav-title">Tables</div>
+            <div class="toggle-nav-bar">
+                <div class="toggle-icon">☰</div>
+            </div>
+            <ul class="image-list">
+                <li><img src="{% static 'images/models-customers.drawio.png' %}" alt="Customers" class="question-image"></li>
+                <li><img src="{% static 'images/models-employees.drawio.png' %}" alt="Employees" class="question-image"></li>
+                <li><img src="{% static 'images/models-offices.drawio.png' %}" alt="Offices" class="question-image"></li>
+                <li><img src="{% static 'images/models-orderdetails.drawio.png' %}" alt="Order Details" class="question-image"></li>
+                <li><img src="{% static 'images/models-payments.drawio.png' %}" alt="Payments" class="question-image"></li>
+                <li><img src="{% static 'images/models-products.drawio.png' %}" alt="Products" class="question-image"></li>
+            </ul>
+        </div>
+
+        <div class="question-container">
+            <h1>Assignment Questions</h1>
+            <form method="post" action="{% url 'submit_answer' %}">
+                {% csrf_token %}
+                {% for assignment in questions_data %}
+                <div class="question">
+                    <h2>{{assignment.id}}.{{ assignment.question }} <span style="font-weight: bold;">[{{assignment.marks}}]</span></h2>
+                    <textarea class="answer-textarea" name="answers[{{ assignment.id }}]" rows="4" cols="50"></textarea>
+                </div>
+                {% endfor %}
+
+                <input type="submit" value="Submit Assignment" onclick="resetTimer()">
+            </form>
+        </div>
+    </div>
+
+  
+</body>
+</html>

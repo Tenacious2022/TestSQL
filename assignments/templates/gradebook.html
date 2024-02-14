@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grades</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0;
+            color: #007BFF;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #fff;
+            margin: 5px 10px;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a.home {
+            margin-left: 0;
+        }
+
+        .navbar a:hover {
+            color: #007BFF;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f0e68c;
+        }
+
+        td:first-child {
+            font-weight: bold;
+        }
+
+        td:nth-child(2) {
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        /* Centered rows */
+        tr.centered {
+            vertical-align: middle;
+        }
+
+        .container {
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* Top Navigation */
+        .topnav {
+            background-color: #0056b3;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid #ec480f;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin-right: 20px;
+        }
+
+        .topnav a {
+            color: #f2f2f2;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .topnav a:hover {
+            background-color: #ec480f;
+            color: #fff;
+            border-radius: 6px;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        /* Add a fancy underline on hover */
+        .topnav a::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #ec480f;
+            bottom: 0;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .topnav a:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .topnav a.active {
+            background-color: #ec480f;
+            color: #fff;
+            border-radius: 6px;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        .welcome-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .welcome-text {
+            text-align: center;
+            color: #f7f7f7;
+            font-size: 18px;
+        }
+
+        .topnav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .topnav-right a {
+            color: #f2f2f2;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+            margin: 0 15px;
+        }
+
+        .topnav-right a.logout-link {
+            margin-left: auto;
+        }
+
+        .topnav a.active:hover {
+            background-color: #f00;
+        }
+    </style>
+</head>
+<body>
+
+<div class="topnav">
+    <div class="welcome-container">
+        <img class="logo" src="{% static 'images/Azure-SQL.png' %}" alt="Logo">
+        <span class="welcome-text">Student Gradebook</span>
+    </div>
+    <div class="topnav-right">
+        <a href="{% url 'homepage' %}" >Home</a>
+        <a href="{% url 'login' %}" class="logout-link">Log out</a>
+    </div>
+</div>
+
+<div class="container">
+    <table>
+        <tr>
+            <th>Student Number</th>
+            <th>Number of Attempts</th>
+            <th>Overall Marks</th>
+        </tr>
+        <!-- Display student data from the database -->
+        {% for student in students %}
+        <tr>
+            <td>{{ student.studentNum }}</td>
+            <td>{{ student.numTemps }}</td>
+            <td style="font-weight: bold; color: green;">{{ student.overallMarks }}/{{ total }}</td>
+        </tr>
+        {% endfor %}
+        <!-- Centered rows -->
+        <tr class="centered">
+            <th>Level</th>
+            <th>Marks</th>
+            <th>Percentage</th>
+        </tr>
+        <tr class="centered">
+            <td>Easy</td>
+            <td>{{ student.easy }}</td>
+            <td>{{ easy }}%</td>
+        </tr>
+        <tr class="centered">
+            <td>Intermediate</td>
+            <td>{{ student.intermediate }}</td>
+            <td>{{ intermediate }}%</td>
+        </tr>
+        <tr class="centered">
+            <td>Hard</td>
+            <td>{{ student.hard }}</td>
+            <td>{{ hard }}%</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

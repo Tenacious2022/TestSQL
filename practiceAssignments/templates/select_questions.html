@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice SQL page</title>
+  <style>
+
+    body, h1, h2, h3, p {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      overflow: hidden;
+    }
+
+    .main {
+      min-height: 100vh;
+      background-size: cover;
+      background-position: center;
+      transition: .3s ease;
+      pointer-events: auto;
+    }
+
+    .main.active {
+      filter: blur(15px);
+      pointer-events: none;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 200%;
+    }
+
+    .home {
+      position: relative;
+      left: -50%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: auto;
+    
+    }
+
+    .home .home-content {
+      width: 500px;
+      background: transparent;
+      border: 2px solid #007bff;
+      align-items: center;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 20px;
+      opacity: 1;
+      pointer-events: none;
+      transform: scale(.9);
+      transition: .3s ease;
+      transition-delay: 0s;
+      z-index: auto;
+    }
+
+    .home-content .options-container {
+      position: relative;
+      align-items: center;
+      width: 500px;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 20px;
+      padding-left: 8px;
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(.9);
+      transition: .3s ease;
+      transition-delay: 0s;
+      z-index: auto;
+      box-shadow: none;
+    }
+
+    .home-content h2 {
+      background: linear-gradient(45deg, transparent, #007bff, transparent);
+      color: #f2f2f2;
+      width: 100%;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      font-size: 32px;
+    }
+
+    .title-container {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      pointer-events: none;
+      width: 80px;
+      height: 80px;
+    }
+
+    .h11 {
+      font-size: 32px;
+      text-align: center;
+      background: linear-gradient(45deg, transparent, #007bff, transparent);
+      border-radius: 6px;
+      color: #f2f2f2;
+    }
+
+    form {
+      text-align: left;
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      font-size: 20px;
+      margin-bottom: 5px;
+      margin-top: 5px;
+    }
+
+    input[type='number'] {
+      width: 100%;
+      padding: 8px;
+      font-size: 20px;
+      border: 2px solid rgba(22, 80, 175, 0.2);
+      border-radius: 4px;
+    }
+
+    .options-button button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #999;
+      margin-top: 10px;
+      padding: 15px 0 7px;
+    }
+
+    button.options-button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 140px;
+      height: 47px;
+      background: #007bff;
+      border: 2px solid #007bff;
+      outline: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 18px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+      cursor: pointer;
+      margin-left: 80px;
+      margin-top: 15px;
+      transition: .5s;
+    }
+
+    button.options-button:hover {
+      background: #3ba2e6;
+      border-color: #3ba2e6;
+    }
+
+    .notification {
+      display: none;
+      background-color: #ff3333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+
+    .popup-info {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(.9);
+      width: 500px;
+      background: rgb(231, 227, 227);
+      border-radius: 6px;
+      padding: 10px 25px;
+      display: none;
+      pointer-events: none; 
+      transition: .3s ease;
+    }
+
+    .popup-info.active {
+      display: block;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+  
+    }
+
+    .popup-info h2 {
+      font-size: 40px;
+      color: #3678be;
+    }
+
+    .popup-info .info {
+      display: inline-block;
+      font-size: 16px;
+      color: #333;
+      font-weight: 500;
+      margin: 4px 0;
+    }
+
+    .popup-info .btn-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #999;
+      margin-top: 10px;
+      padding: 15px 0 7px;
+    }
+
+    .popup-info .btn-group .info-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 140px;
+      height: 45px;
+      background: #007bff;
+      border: 2px solid #007bff;
+      outline: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 16px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+      cursor: pointer;
+      transition: .5s;
+    }
+
+    .popup-info .btn-group .info-btn:nth-child(1) {
+      background: transparent;
+      color: #007bff;
+
+    }
+
+    .popup-info .btn-group .info-btn:nth-child(1):hover {
+      background: #007bff;
+      color: white;
+
+    }
+
+    .popup-info .btn-group .info-btn:nth-child(2):hover {
+      background-color: #3ba2e6;
+      border-color: #3ba2e6;
+
+    }
+
+    .prev-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 45px;
+      background: transparent;
+      border: 2px solid #007bff;
+      outline: none;
+      border-radius: 6px;
+      color: #007bff;
+      font-size: 16px;
+      text-decoration: none;
+      pointer-events: auto;
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+      cursor: pointer;
+      transition: .5s;
+    }
+
+    .prev-btn:hover {
+      background: #007bff;
+      color: white;
+    }
+
+    .quiz-section {
+      position: relative;
+      left: -50%;
+      width: 100%;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      transition: .8s ease-in-out;
+      transition-delay: .25s; 
+    }
+
+    .quiz-section.active {
+      left: 0;
+    }
+
+    .quiz-section .quiz-box {
+      position: relative;
+      width: 500px;
+      background: transparent;
+      border: 2px solid #007bff;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 30px;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(.9);
+      transition: .3s ease;
+      transition-delay: 0s;
+    }
+
+    .quiz-section .quiz-box.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+      transition: 1s ease;
+      transition-delay: 1s;
+    }
+
+    .quiz-box h1 {
+      font-size: 32px;
+      text-align: center;
+      background: linear-gradient(45deg, transparent, #007bff, transparent);
+      border-radius: 6px;
+      color: #f2f2f2;
+    }
+
+    .quiz-box .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 2px solid #007bff;
+      margin-bottom: 30px;
+    }
+
+    .quiz-header span {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .quiz-box .header-score {
+      background: #007bff;
+      border-radius: 3px;
+      padding: 7px;
+      color: #f2f2f2;
+      font-weight: 600;
+    }
+
+    .quiz-box .question-text {
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .quiz-box .user-answer {
+      width: 100%;
+      padding: 20px 0;
+      padding-left: 10px;
+      background: transparent;
+      border: 2px solid rgba(22, 80, 175, 0.2);
+      border-radius: 4px;
+      font-size: 17px;
+      margin: 15px 0;
+      cursor: text; 
+      transition: .3s;
+      resize: vertical;
+      height: auto;
+      overflow-y: hidden;
+    }
+
+    .quiz-box .quiz-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 2px solid #007bff;
+      padding-top: 20px;
+      margin-top: 25px;
+    }
+
+    .quiz-footer .question-total {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .quiz-footer .next-btn {
+      width: 100px;
+      height: 45px;
+      background: #007bff;
+      border-color: #007bff;
+      outline: none;
+      border-radius: 6px;
+      font-size: 16px;
+      color: #f2f2f2;
+      font-weight: 600;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: .5s;
+    }
+
+    .quiz-footer .next-btn:hover {
+      background: #3ba2e6;
+      border-color: #3ba2e6;
+      color: #f2f2f2; 
+    }
+
+    .quiz-section .result-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(.9);
+      width: 500px;
+      background: transparent;
+      border: 2px solid #007bff;
+      border-radius: 6px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: .3s ease;
+    }
+
+    .quiz-section .result-box.active {
+      pointer-events: auto;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .result-box h2 {
+      font-size: 52px;
+      color: #333;
+    }
+
+    .result-box .percentage-container {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0 40px;
+    }
+
+    .percentage-container .circular-progress {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .percentage-container .circular-progress::before {
+      content: '';
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+    }
+
+    .circular-progress .progress-value {
+      position: relative;
+      font-size: 45px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .percentage-container .score-text {
+      font-size: 26px;
+      font-weight: 600;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #0056b3;
+      border: 2px solid #0056b3;
+      outline: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      pointer-events: auto;
+      cursor: pointer;
+      transition: .5s;
+      padding: 5px 10px;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: #3ba2e6;
+      border-color: #3ba2e6;
+    }
+
+    .topnav {
+      background-color: #0056b3;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 20px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+      border-bottom: 2px solid #ec480f; 
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      margin-right: 20px;
+    }
+
+    .topnav a {
+      color: #f2f2f2;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s ease;
+      margin: 0 15px;
+      position: relative;
+    }
+
+    .topnav a:hover {
+      background-color: #ec480f;
+      color: #fff;
+      border-radius: 6px;
+      font-weight: bold;
+      padding: 5px;
+    }
+
+
+    .topnav a::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: #ec480f;
+      bottom: 0;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .topnav a:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .topnav a.active {
+      background-color: #ec480f;
+      color: #fff;
+      border-radius: 6px; 
+      font-weight: bold; 
+      padding: 5px;
+    }
+
+    .welcome-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .welcome-text {
+      text-align: center;
+      color: #f7f7f7;
+      font-size: 18px;
+    }
+
+    .topnav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .topnav-right a {
+      color: #f2f2f2;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s ease;
+      margin: 0 15px;
+    }
+
+    .topnav-right a.logout-link {
+      margin-left: auto;
+    }
+
+    .topnav a.active:hover {
+      background-color: #f00;
+    }
+
+    .feedback {
+      position: fixed; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      display: flex;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      opacity: 0;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .feedback.active {
+      opacity: 1;
+      pointer-events: auto ;
+    }
+
+    .feedback h1 {
+      text-align: center;
+      color: #0056b3;
+      margin-bottom: 20px;
+    }
+
+    .feedback h2 {
+      text-align: center;
+      color: #555;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #0056b3;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    .feedback .buttons {
+      display: flex;
+      justify-content: space-between;
+      padding-right: 20px;
+    }
+
+    .buttons button {
+      width: 130px;
+      height: 47px;
+      background: #007bff;
+      border-color: 2px solid #007bff;
+      outline: none;
+      border-radius: 6px;
+      justify-content: space-between;
+      font-size: 16px;
+      color: #f2f2f2;
+      font-weight: 600;
+      margin: 0 20px 20px;
+      cursor: pointer;
+      transition: .5s;
+    }
+
+    .buttons button:hover {
+      background: #ee8b09;
+      border-color: #ee8b09;
+    }
+
+  </style>
+ 
+</head>
+<body>
+
+  <div class="topnav">
+    <div class="welcome-container">
+        <img class="logo" src="{% static 'images/Azure-SQL.png' %}" alt="Logo">
+        <span class="welcome-text" >The best way to learn SQL is to practice it.</span>
+    </div>
+    <div class="topnav-right">
+        <a href="{% url 'homepage' %}">Home</a>
+        <a href="{% url 'login' %}" class="logout-link">Log out</a>
+    </div>
+</div>
+
+  <main class="main">
+    
+    <div class="container" >
+
+
+      <div class="feedback" style="padding-right: 20px;">
+        <div class="feedback-container" >
+          <h1>Practice Questions Feedback</h1>
+          
+          <h2 class="totalMarks"></h2>
+          
+          <table style="padding: 20px;">
+              <thead>
+                  <tr>
+                      <th>Question</th>
+                      <th>Level</th>
+                      <th>Test Cases</th>
+                      <th>User Answer</th>
+                      <th>Marks Obtained</th>
+                  </tr>
+              </thead>
+              <tbody id="feedback-table-body"></tbody>
+          </table>
+          
+          <div class="buttons">
+
+            <form action="{% url 'homepage' %}" method="get">
+              <button type="submit">Exit</button>
+          </form>
+
+              <form action="{% url 'select_questions' %}" method="get">       
+                  <button type="submit">Practice Again</button>
+              </form>
+                
+          </div>
+      </div>
+      </div>
+
+
+      <section class="quiz-section">
+         
+        <div class="quiz-box">
+          <h1>Practice SQL</h1>
+          <div class="quiz-header">
+            <span style="font-weight: 600;">SQL Tutorials</span>
+            <span class="header-score"></span>
+          </div>
+          <h2 class="question-text" style="color: #333;"></h2>
+          <div class="answer-input">
+            <textarea type="text" class="user-answer" id="user-answer" name="user-answer"></textarea>
+          </div>
+          <div class="quiz-footer">
+            <button class="prev-btn">Prev</button>
+            <span class="question-total">1 of 3 Questions</span>
+
+            <button class="next-btn">Next</button>
+          </div>
+        </div>
+
+        <div class="result-box">
+          <h2>Feedback!</h2>
+          <div class="percentage-container">
+            <div class="circular-progress"></div>
+          </div>
+          <div class="buttons">
+            <button class="tryAgain-btn">Try Again</button>
+            <button class="goHome-btn">Go to Home</button>
+          </div>
+        </div>
+
+      </section>
+
+      <script>
+        async function fetchLevelSizes() {
+          try {
+            const response = await fetch('/getDatabaseSize/'); 
+            if (!response.ok) {
+              throw new Error('Failed to fetch level sizes');
+            }
+            const levelSizes = await response.json();
+
+            document.getElementById('easy').min = 0;
+            document.getElementById('easy').max = levelSizes.easySize;
+      
+            document.getElementById('medium').min = 0;
+            document.getElementById('medium').max = levelSizes.intermediateSize; 
+      
+            document.getElementById('hard').min = 0;
+            document.getElementById('hard').max = levelSizes.advancedSize;
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      
+        fetchLevelSizes();
+      </script>
+      
+
+      <section class="home">
+       
+        <div class="home-content">
+
+          <div class="options-container">
+            <h2 class="options-title">Select Number of Questions</h2>
+            <form method="post" id="question-form">
+              {% csrf_token %}
+              <label for="easy">Easy:</label>
+              <input type="number" name="easy" id="easy" value="0" min="0">
+              <br>
+              <label for="medium">Medium:</label>
+              <input type="number" name="medium" id="medium" value="0" min="0">
+              <br>
+              <label for="hard">Hard:</label>
+              <input type="number" name="hard" id="hard" value="0" min="0">
+              <br>
+              <button class="options-button" type="submit" id="start-button">Start Practicing</button> 
+            </form>
+            
+            <div class="notification" id="empty-fields-notification">Please fill in at least one field.</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <div class="popup-info">
+    <h2>Practice Guide</h2>
+    <span class="info">Welcome to our SQL Practice Quiz!</span>
+    <span class="info">Here's how it works:</span>
+    <ol class="info">
+      <li>Click the "Continue" button below to begin.</li>
+      <li>You will be presented with a series of SQL questions.</li>
+      <li>For each question, type your answer in the provided text area.</li>
+      <li>Click the "Next" button to move to the next question.</li>
+      <li>Each question's mark will be displayed on the top right.</li>
+      <li>When you click "Try Again", you will practice different questions with the same difficulty level.</li>
+      <li>If you want to change the difficulty level, click the "Go to Home" button.</li>
+      <li>Try to answer as many questions correctly as possible!</li>
+    </ol>
+    <span class="info">Have fun and test your SQL knowledge!</span>
+
+    <div class="btn-group">
+      <button class="info-btn exit-btn">Exit Practice</button>
+      <a href="#" class="info-btn continue-btn">Continue</a>
+    </div>
+  </div>
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

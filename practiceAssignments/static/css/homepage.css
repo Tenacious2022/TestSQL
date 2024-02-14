@@ -1,0 +1,150 @@
+/* Reset some default styles for cleaner rendering */
+.body, h1, h2, p, ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Add styles for the whole page */
+.body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+/* Add styles for the top navigation bar */
+.topnav {
+  background-color: #0056b3;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  margin-right: 20px; /* Add margin to create spacing */
+}
+
+.topnav a {
+  color: #f2f2f2;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s ease; /* Add a smooth transition effect on hover */
+  margin: 0 15px; /* Add horizontal spacing between links */
+}
+
+.topnav a:hover {
+  color: #ec480f;
+ 
+}
+
+/* Add styles for the welcome message */
+.welcome-container {
+  display: flex;
+  align-items: center;
+}
+
+.welcome-text {
+  text-align: center;
+  color: #f7f7f7;
+  font-size: 18px;
+  
+}
+
+/* Add styles for the right-aligned section */
+.topnav-right {
+  display: flex;
+  align-items: center; /* Vertically center content */
+}
+
+.topnav-right a {
+  color: #f2f2f2;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s ease; /* Add a smooth transition effect on hover */
+  margin: 0 15px; /* Add horizontal spacing between links */
+}
+
+.topnav-right a.logout-link {
+  margin-left: auto; /* Move the "Log out" link to the far right */
+}
+
+.topnav-right a:hover {
+  color: #ec480f;
+  font-weight: bold;
+ 
+  
+}
+
+/* content */
+.container {
+  display: flex;
+  padding-top: 50px;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.login-wrapper {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 90%;
+}
+
+/* Additional styles can be added as needed */
+.h1 {
+  font-size: 36px;
+  color: #0099CC;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  padding-top: 50px;
+  text-align: center;
+}
+
+.logo {
+  max-width: 100px;
+  display: block;
+  margin: 0 auto;
+  
+}
+
+.options-container {
+  margin-top: 30px;
+}
+
+.homepage-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.options-button {
+  background-color: #0099CC;
+  color: #fff;
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 300px;
+}
+
+.options-button:hover {
+  background-color: #191c53;
+}
+
+.homepage-button {
+  text-align: center;
+}

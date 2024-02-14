@@ -1,0 +1,10 @@
+Error occured no such column: o.customerNumber
+Error occured no such function: CONCAT
+Error occured no such column: c.officeCode
+Error occured ambiguous column name: productCode
+Error occured no such function: CONCAT
+Error occured no such column: o.customerNumber
+Error occured no such function: CONCAT
+Error occured no such column: c.officeCode
+Error occured no such function: CONCAT
+Error occured no such function: CONCAT

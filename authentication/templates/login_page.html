@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <style>
+        /* add background image */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            position: relative;
+            background-image: url("{% static 'images/login.jpg' %}");
+            background-size: cover; 
+            background-repeat: no-repeat;
+        }
+
+        /* Style for success and error messages */
+        .messages {
+            list-style: none;
+            padding: 0;
+        }
+
+        .messages li {
+            margin: 10px 0;
+            padding: 20px;
+            border-radius: 4px;
+
+        }
+
+        /* Success message style */
+        .messages .success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Error message style */
+        .messages .error {
+            background-color: #FF5252;
+            color: white;
+        }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <!-- download font -->
+    <link href="https://fonts.googleapis.com/css?family=Your+Font+Here" rel="stylesheet">
+</head>
+<body>
+    <main class="login-page">
+        <div class="center-container">
+            <div class="title-container">
+                <img class="logo" src="{% static 'images/sql-database-generic.png' %}" alt="Logo">
+                <h1 class="h1">Learning Platform</h1>
+            </div>
+
+            <!-- Display success message if available -->
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{% if message.tags %}{{ message.tags|title }}:{% endif %} {{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form.errors }}
+                <p class="login-text">Sign in with your username and password.</p>
+                <input class="login-input" type="text" name="username" placeholder="Username" required>
+                <input class="login-input" type="password" name="password" placeholder="Password" required>
+                <button class="login-button" type="submit">Log In</button>
+            </form>
+
+            <div class="forgot-password" style="padding: 8px;">
+                <a href="{% url 'forgotPassword' %}">Forgot Password?</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

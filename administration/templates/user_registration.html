@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/user_registration.css' %}">
+    <style>
+        body, html {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #f1e9e9;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-image: url("{% static 'images/sqltest.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        form {
+            background-color: rgba(123, 123, 123, 0.6);
+            border-radius: 8px;
+            padding: 4px;
+            width: 60%;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px; /* Reduce the margin between labels */
+            color: #fff;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="file"] {
+            width: 60%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+            vertical-align: middle;
+            margin-bottom: 1px;
+        }
+
+        label[for="file"] {
+            display: inline-block;
+            background-color: #04AA6D;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        label[for="file"]:hover {
+            background-color: #0056b3;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #loading-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navigation_bar.html' %}
+    <h1 style="color: #fff;">User Registration</h1>
+    <form method="post" action="{% url 'user_registration' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <br>
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name">
+        <br>
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <br>
+        <label for="file">Upload participant list</label>
+        <input type="file" name="file" id="file" class="form-control" style="display: none;" onchange="displayFileName()">
+        <br>
+        <span id="file-name">No file selected</span>
+        <br>
+        <label>User Role:</label>
+        <br>
+        <input type="radio" id="student_role" name="role" value="student" required>
+        <label for="student_role">Student Role</label>
+        <br>
+        <input type="radio" id="admin_role" name="role" value="admin" required>
+        <label for="admin_role">Admin Role</label>
+        <br>
+        <input type="submit" value="Register">
+        <br>
+        <div id="loading-icon" style="display: none;">
+            <img src="loading.gif" alt="Registering..." />
+        </div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </form>
+    <script>
+        function displayFileName() {
+            const fileInput = document.getElementById('file');
+            const fileNameElement = document.getElementById('file-name');
+
+            if (fileInput.files.length > 0) {
+                fileNameElement.textContent = fileInput.files[0].name;
+            } else {
+                fileNameElement.textContent = 'No file selected';
+            }
+        }
+
+        function showLoadingIcon() {
+            const loadingIcon = document.getElementById('loading-icon');
+            loadingIcon.style.display = 'block';
+        }
+
+        // Function to hide the loading icon
+        function hideLoadingIcon() {
+            const loadingIcon = document.getElementById('loading-icon');
+            loadingIcon.style.display = 'none';
+        }
+
+        // Add an event listener to the form submission
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function () {
+            showLoadingIcon();
+        });
+    </script>
+</body>
+</html>

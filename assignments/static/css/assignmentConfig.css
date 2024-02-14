@@ -1,0 +1,161 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #007bff;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="number"] {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Style the Due Date input */
+#dueDate {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+/* Style the label for the Due Date input */
+label[for="dueDate"] {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 40%;
+    align-items: center;
+    
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+/* --------------------------TOP NAV -----------------------------*/
+.topnav {
+    background-color: #0056b3;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    border-bottom: 2px solid #ec480f; /* Add a fancy border bottom */
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+}
+
+.topnav a {
+    color: #f2f2f2;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    margin: 0 15px;
+    position: relative;
+}
+
+.topnav a:hover {
+    color: black;
+    background-color: #bfcfff;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+
+.welcome-container {
+    display: flex;
+    align-items: center;
+}
+
+.welcome-text {
+    text-align: center;
+    color: #f7f7f7;
+    font-size: 16px;
+}
+
+.topnav-right {
+    display: flex;
+    align-items: center;
+    
+}
+
+.topnav-right a {
+    color: #f2f2f2;
+    
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    margin: 0 15px;
+}
+
+.topnav-right a.logout-link {
+    margin-left: auto;
+}
+
+
+/* The navigation menu */
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    color: #eee;
+}
+
+.alert-success {
+    background-color: #d4edda; /* Light green background color */
+    color: #155724; /* Dark green text color */
+    border-color: #c3e6cb; /* Border color */
+    padding: 10px 15px; /* Padding around the message */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Style for error messages */
+.alert-danger {
+    background-color: #f8d7da; /* Light red background color */
+    color: #721c24; /* Dark red text color */
+    border-color: #f5c6cb; /* Border color */
+    padding: 10px 15px; /* Padding around the message */
+    border-radius: 5px; /* Rounded corners */
+}

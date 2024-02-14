@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administration</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/admin_homepage.css' %}">
+    <style>
+        /* Reset some default styles for a clean slate */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            position: relative; /* Allow absolute positioning of the button relative to the entire page */
+            background-image: url("{% static 'images/sqltest.jpg' %}");
+            background-size: cover; 
+            background-repeat: no-repeat;
+        }
+
+        /* Add some style to the main container */
+        .login-wrapper {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Style the title */
+        .h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Style the buttons */
+        .homepage-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+            margin: 20px auto;
+        }
+
+        .homepage-button {
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .homepage-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body class="homepage">
+    {% include 'navigation_bar.html' %}
+    <!-- Content Section -->
+    <div class="content" style="text-align: center; color: #fff; padding: 30px;">
+        <h1 class="centered">Welcome to Administration</h1>
+        <p>
+            This is SQL administration section only for Course convenor, Teaching Assistant, and other admin staff.
+        </p>
+        <p>
+            In this site, admin staff can add, remove participants, view the gradebook for all students, and also for individual students.  
+        </p>
+    </div>
+</body>
+</html>

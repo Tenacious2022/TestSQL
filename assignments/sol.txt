@@ -1,0 +1,6 @@
+select officeCode,territory from offices where state="Califonia";
+select * from customers;
+select customerName,country from customers where country="USA";
+select distinct productLine from products;
+select productName from products;
+select count(*) from employees;

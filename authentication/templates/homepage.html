@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQL Practice Homepage</title>
+    {% load static %}
+    <style type="text/css">
+        body, h1, h2, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            background-image: url("{% static 'images/campus-top.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .topnav {
+            background-color: #0056b3;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid #ec480f; 
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin-right: 20px;
+        }
+
+        .topnav a {
+            color: #f2f2f2;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .topnav a:hover {
+            color: #ec480f;
+        }
+
+        
+        .topnav a::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #ec480f;
+            bottom: 0;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .topnav a:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        .topnav a.active {
+            background-color: #ec480f; 
+            color: #fff; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            padding: 5px;
+        }
+
+        .welcome-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .welcome-text {
+            text-align: center;
+            color: #f7f7f7;
+            font-size: 18px;
+        }
+
+        .topnav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .topnav-right a {
+            color: #f2f2f2;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+            margin: 0 15px;
+        }
+
+        .topnav-right a.logout-link {
+            margin-left: auto;
+        }
+
+        .topnav a.active:hover {
+            background-color: #f00;
+        }
+
+        .homepage {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto;
+            flex-direction: column;
+        }
+
+        .title-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            pointer-events: none;
+            width: 70px;
+            height: 70px;
+        }
+
+        .h1 {
+            font-size: 32px;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(45deg, transparent, #007bff, transparent);
+            border-radius: 6px;
+            color: #f2f2f2;
+            margin-top: 3px;
+        }
+
+        .homepage-buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            padding: 15px 0 7px;
+        }
+
+        .homepage .center-container .options-button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            height: 45px;
+            background: #007bff;
+            border: 2px solid #007bff;
+            outline: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            cursor: pointer;
+            transition: .5s;
+            margin: 10px 0;
+        }
+
+        .homepage-buttons .options-button:hover {
+            background: #ec480f;
+            border-color: #3ba2e6;
+        }
+
+        .center-container {
+        background: rgba(255, 255, 255, 0.7);
+        border: 2px solid #007bff;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 40px;
+        opacity: 1;
+        transition: .3s ease;
+        transition-delay: 0s;
+        z-index: auto;
+    }
+
+    .screen {
+        transition: .3s ease;
+        pointer-events: auto;
+    }
+
+    .message {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+    .screen.active {
+        filter: blur(15px);
+        pointer-events: none;
+    }
+
+    .popup-info {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(.9);
+        width: 500px;
+        background: rgb(231, 227, 227);
+        border-radius: 6px;
+        padding: 10px 25px;
+        display: none;
+        pointer-events: none; 
+        transition: .3s ease;
+    }
+
+    .popup-info.active {
+        display: block;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1);
+  
+    }
+
+    .popup-info h2 {
+        font-size: 40px;
+        color: #3678be;
+    }
+
+    .popup-info .info {
+        display: inline-block;
+        font-size: 16px;
+        color: #333;
+        font-weight: 500;
+        margin: 4px 0;
+    }
+
+    .popup-info .btn-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #999;
+        margin-top: 10px;
+        padding: 15px 0 7px;
+    }
+
+    .popup-info .btn-group .info-btn {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 140px;
+        height: 45px;
+        background: #007bff;
+        border: 2px solid #007bff;
+        outline: none;
+        border-radius: 6px;
+        color: white;
+        font-size: 16px;
+        text-decoration: none;
+        font-weight: 600;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        cursor: pointer;
+        transition: .5s;
+    }
+
+    .popup-info .btn-group .info-btn:nth-child(1) {
+        background: transparent;
+        color: #007bff;
+
+    }
+
+    .popup-info .btn-group .info-btn:nth-child(1):hover {
+        background: #007bff;
+        color: white;
+
+    }
+
+    .popup-info .btn-group .info-btn:nth-child(2):hover {
+        background-color: #3ba2e6;
+        border-color: #3ba2e6;
+
+    }
+    </style>
+</head>
+<body>
+    <div class="screen">
+        <div class="topnav">
+            <div class="welcome-container">
+                <img class="logo" src="{% static 'images/Azure-SQL.png' %}" alt="Logo">
+                <span class="welcome-text" >Welcome, {{ user }}!</span>
+                <span class="'welcome-text" style="color: #ec480f; font-size: 18px; padding-left: 400px; font-weight: bold;">Assignment Due: {{ deadline|date:"Y-m-d h:i A" }}</span>
+            </div>
+            <div class="topnav-right">
+                <a href="{% url 'homepage' %}" class="active" >Home</a>
+                <a href="{% url 'login' %}" class="logout-link">Log out</a>
+            </div>
+        </div>
+
+        <main class="homepage">
+            <!-- Display the message if it exists in the context -->
+            {% if message %}
+            <div class="message">
+                <p>{{ message }}</p>
+            </div>
+            {% endif %}
+            
+            <div class="title-container">
+                <h1 class="h1">SQL Learning Platform</h1>
+            </div>
+
+            <div class="center-container">
+                <div class="login-wrapper">
+                    <div class="options-container homepage-options-container" style="width: 100%;">
+                        <div class="homeSpan" style="font-size: 30px; padding: 5px; background: linear-gradient(45deg, transparent, #007bff, transparent); color: #f2f2f2; width: 100%; align-items: center; display: flex; flex-direction: column;">
+                            Choose an option:
+                        </div>
+                        <div class="homepage-buttons">
+                            <a class="options-button homepage-button" id="assignmentBtn">
+                                Start Assignment
+                            </a>
+                            <a class="options-button homepage-button" href="{% url 'select_questions' %}">
+                                Practice SQL
+                            </a>
+                            <a class="options-button homepage-button" href="{% url 'gradebook' %}">
+                                View Grades
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="popup-info">
+        <h2>Assignment Guide</h2>
+        <span class="info">Welcome to your SQL Assignment!</span>
+        <span class="info" style="color: #f00; font-weight: bold;">To be completed before: {{ deadline|date:"Y-m-d h:i A" }}</span> <br>
+        <span class="info">Here's how it works:</span>
+        <ol class="info">
+            <li>Click the "Continue" button below to begin.</li>
+            <li>You will be presented with a list of SQL questions.</li>
+            <li>For each question, type your answer in the provided text area.</li>
+            <li>Use the tables as reference when answering the questions.</li>
+            <li>The assignment has a time limit.</li>
+            <li>Try to answer as many questions correctly as possible!</li>
+        </ol>
+        <span class="info">You got this!</span>
+    
+        <div class="btn-group">
+            <button class="info-btn exit-btn">Exit</button>
+            <a href="{% url 'attemptAssignment' %}" class="info-btn continue-btn" id="continueButton">Continue</a>
+        </div>
+    </div>
+    <script>
+        const popupInfo = document.querySelector('.popup-info');
+        const exitBtn = document.querySelector('.exit-btn');
+        const main = document.querySelector('.screen');
+        const continueBtn = document.querySelector('.continue-btn');
+        const assignmentBtn = document.getElementById("assignmentBtn");
+        
+    
+    
+        exitBtn.addEventListener('click', () => {
+            popupInfo.classList.remove('active');
+            main.classList.remove('active');
+        });
+        
+        continueBtn.addEventListener('click', () => {
+            popupInfo.classList.remove('active');
+            main.classList.remove('active');
+            window.location.href = "{% url 'attemptAssignment' %}";
+    
+        });
+    
+        assignmentBtn.addEventListener('click', () => {
+            popupInfo.classList.add('active');
+            main.classList.add('active');
+        });
+    </script>
+</body>
+</html>
